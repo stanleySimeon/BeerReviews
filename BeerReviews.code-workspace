@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../../../Downloads/demo-react/node_modules"
+		},
+		{
+			"path": "../../../Downloads/demo-react/public"
+		},
+		{
+			"path": "../../../Downloads/demo-react/src"
+		}
+	],
+	"settings": {}
+}
