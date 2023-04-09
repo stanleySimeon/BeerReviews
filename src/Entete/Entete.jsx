@@ -74,9 +74,7 @@ export default function Entete(props) {
         <button disabled={!courrielValide} onClick={(e) => { verifierCourriel(); }}>{(!connecter ? 'Se connecter' : 'Se déconnecter')}</button>
         {etatConnection()}
         <Link to="/">Accueil</Link>
-        <NavLink to="/">Accueil</NavLink>
         <Link to="/liste">Liste</Link>
-        <NavLink to="/liste">Liste</NavLink>
         <div>
           <h2>Ajouter un commentaire</h2>
           <input value={comment} onChange={(e) => { setComment(e.target.value); setCommentValide(e.target.value.length > 0); }} type="text" placeholder="Commentaire" />
