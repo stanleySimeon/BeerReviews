@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './Entete.css';
 
 export default function Entete(props) {
@@ -48,44 +48,27 @@ export default function Entete(props) {
     }
   }
 
-  function etatConnection() {
-    let html = <p>Pas connecté</p>;
+  function stateOfConnection() {
     if (connecter) {
-      html = <p>Est connecté</p>;
+      return <p>Est connecté</p>;
     }
-    return html;
-  }
-
-  function btnConnection() {
-    const chaine = 'Se connecter';
-    if (connecter) {
-      html = 'Se déconnecter';
-    }
-    return chaine;
+    return <p>Pas connecté</p>;
   }
 
   return (
-    <header id="entete" className="entete">
-      <h1>Titre de page</h1>
+    <header id="entete" className="entete bg-yellow-500">
+      <h1 className="text-xl text-white">Acceuil</h1>
       <span className="spacer" />
-      <nav>
-        Courriel
-        <input disabled={connecter} value={courriel} onChange={(e) => { validerCourriel(e.target.value); }} type="text" />
-        <button disabled={!courrielValide} onClick={(e) => { verifierCourriel(); }}>{(!connecter ? 'Se connecter' : 'Se déconnecter')}</button>
-        {etatConnection()}
-        <Link to="/">Accueil</Link>
-        <NavLink to="/">Accueil</NavLink>
-        <Link to="/liste">Liste</Link>
-        <NavLink to="/liste">Liste</NavLink>
-        <div>
-          <h2>Ajouter un commentaire</h2>
-          <input value={comment} onChange={(e) => { setComment(e.target.value); setCommentValide(e.target.value.length > 0); }} type="text" placeholder="Commentaire" />
-          <button disabled={!commentValide} onClick={(e) => { ajouterCommentaire(); }}>Ajouter</button>
+      <nav className="flex justify-between items-center">
+        <div className="flex items-center">
+          <label className="mr-2 text-white font-medium">Courriel</label>
+          <input disabled={connecter} value={courriel} onChange={(e) => { validerCourriel(e.target.value); }} type="text" className="rounded-lg border-2 border-gray-400 px-2 py-1" />
+          <button disabled={!courrielValide} onClick={(e) => { verifierCourriel(); }} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 ml-2 rounded">{(!connecter ? 'Se connecter' : 'Se déconnecter')}</button>
+          {stateOfConnection()}
         </div>
-        <div>
-          <h2>Ajouter une note</h2>
-          <input value={rating} onChange={(e) => { setRating(parseInt(e.target.value)); }} type="number" min="1" max="5" />
-          <button disabled={rating === 0} onClick={(e) => { ajouterNote(); }}>Ajouter</button>
+        <div className="flex items-center">
+          <Link to="/" className="text-white font-medium mx-2 hover:text-gray-400">Accueil</Link>
+          <Link to="/liste" className="text-white font-medium mx-2 hover:text-gray-400">Liste</Link>
         </div>
       </nav>
     </header>

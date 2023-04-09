@@ -1,59 +1,82 @@
 import { useState, useEffect } from "react";
-import Produit from "../Produit/Produit";
+import { Link } from "react-router-dom";
 import "./Liste.css";
-export default function Liste(props){
-    let [miseAJour, setMiseAJour] = useState(false);
-    console.log("liste")
-    //prop.titre = "test";
-    let aProduits=[];
-    for(let i = 0; i< 15; i++){
-        aProduits.push({
-            id : (i+1),
-            nom : " Item " + i,
-            brasserie : "Fab " +i,
-        });
-    }
-    let [produits, setProduits] = useState(aProduits);
-    useEffect(()=>{
-        getBieres();
-    }, [miseAJour]);
 
-    
-    const htmlProduit = produits.map((unProduit, index)=>{
-        return (
-                <Produit key={index} connecter={props.connecter} unProduit={unProduit} {...unProduit}/>
-            );
-    })
+export default function Liste(props) {
+  const [produits, setProduits] = useState([]);
 
-    function getBieres()
-    {
-        fetch("//127.0.0.1:8000/webservice/php/biere")
-            .then(data=>data.json())
-            .then(data=>{
-                setProduits(data.data);
-                setMiseAJour(false);
-            })
+  useEffect(() => {
+    async function fetchProduits() {
+      try {
+        const response = await fetch(
+          "http://127.0.0.1:8000/webservice/php/biere"
+        );
+        const data = await response.json();
+        setProduits(data.data);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
     }
 
-    function ajouterProduit(){
+    fetchProduits();
+  }, []);
 
-        let item = {
-            nom : " Item 100",
-            fabricant : "Fab 100",
-            prix : Math.floor(Math.random()*50)
-        };
-        setProduits(produits.concat(item));
-        //console.log(aProduits);
-    }
-
-    return (
-        <>
-            <h1 className="">{props.titre}</h1>
-            <button onClick={()=>{ ajouterProduit()}}>AjouterProduit</button>
-            <section className="catalogue">
-            {htmlProduit}
-            </section>
-        </>
-    )
-
+	return (
+		<>
+			<h1 className="text-xl text-white">Liste des bières</h1>
+			<section className="grid grid-cols-3 gap-4">
+				{produits.map((produit) => (
+					<div key={produit.name} className="bg-white p-4">
+						<p className="text-xl">Nom: {produit.nom}</p>
+						<Link to={`/detail/${produit.id}`}>Détails</Link>
+					</div>
+				))}
+			</section>
+		</>
+	);
 }
+
+// import { useState, useEffect } from "react";
+// import Detail from "../Detail/Detail";
+// import Comments from "../Detail/Comments";
+// import CommentForm from "../Detail/CommentForm";
+
+// export default function Biere() {
+//   const [beers, setBeers] = useState([]);
+//   const [selectedBeer, setSelectedBeer] = useState(null);
+
+//   // fetch beers data and update state
+//   useEffect(() => {
+//     fetch("http://127.0.0.1:8000/webservice/php/biere")
+//       .then(response => response.json())
+//       .then(data => setBeers(data))
+//       .catch(error => console.log(error));
+//   }, []);
+
+//   // handle selecting a beer
+//   const handleSelectBeer = beer => {
+//     setSelectedBeer(beer);
+//   };
+
+//   return (
+//     <div>
+//       <h2>Beers</h2>
+// 			<ul>
+// 				{beers && Array.isArray(beers) && beers.length > 0 && beers.map(beer => (
+// 					<li key={beer.id}>
+// 						<button onClick={() => handleSelectBeer(beer)}>
+// 							{beer.name}
+// 						</button>
+// 					</li>
+// 				))}
+// 			</ul>
+//       {selectedBeer && (
+//         <div>
+//           <Detail beer={selectedBeer} />
+//           <Comments beer={selectedBeer} />
+//           <CommentForm beer={selectedBeer} />
+//         </div>
+//       )}
+//     </div>
+//   );
+// }

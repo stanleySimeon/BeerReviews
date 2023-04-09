@@ -1,7 +1,6 @@
 import './App.css'
 import Entete from '../Entete/Entete';
 import Liste from '../Liste/Liste';
-import Home from '../Home/Home';
 import { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Detail from '../Detail/Detail';
@@ -18,11 +17,11 @@ function App() {
     prop3 : "monde"
   };
 
-  /*setTimeout(()=>{
-    console.log(sTitre);
-    setTitre("Nouveau titre")
-    console.log(sTitre);
-  } , 5000);*/
+  // setTimeout(()=>{
+  //   console.log(sTitre);
+  //   setTitre("Nouveau titre")
+  //   console.log(sTitre);
+  // } , 5000);
 
   return (
       <Router>
@@ -33,11 +32,9 @@ function App() {
           <Route path='/detail/:id' element={<Detail />} />
           <Route path='*' element={<h1>Non trouvé - 404</h1>} />
         </Routes>
-
+        
         <div className="piedPage">
-
           {sTitre}
-          <Home />
         </div>
     </Router>
   )
