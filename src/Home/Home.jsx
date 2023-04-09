@@ -1,47 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import BeerItem from './BeerItem';
 
-const Home = () => {
-  const [beers, setBeers] = useState([]);
+class HomePage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      topBeers: [],
+    };
+  }
 
-  useEffect(() => {
+  componentDidMount() {
     fetch('http://localhost:8000/webservice/php/biere')
       .then((response) => response.json())
       .then((data) => {
-        setBeers(data);
-      })
-      .catch((error) => console.error(error));
-  }, []);
+        const topBeers = data.sort((a, b) => b.moyenne_note - a.moyenne_note).slice(0, 5);
+        this.setState({ topBeers });
+      });
+  }
 
-  const topBeers = beers
-    .sort((a, b) => b.average - a.average)
-    .slice(0, 5)
-    .map((beer) => (
-      <li key={beer.id}>
-        <h2>{beer.name}</h2>
-        <p>
-          Brewery:
-          {' '}
-          {beer.brewery}
-        </p>
-        <p>
-          Average rating:
-          {' '}
-          {beer.average}
-        </p>
-        <p>
-          Number of ratings:
-          {' '}
-          {beer.number}
-        </p>
-      </li>
-    ));
+  render() {
+    const { topBeers } = this.state;
 
-  return (
-    <div>
-      <h1>Top 5 Beers</h1>
-      <ul>{topBeers}</ul>
-    </div>
-  );
-};
+    return (
+      <div>
+        <h1>Top 5 Beers</h1>
+        {topBeers.map((beer) => (
+          <BeerItem key={beer.id} beer={beer} />
+        ))}
+      </div>
+    );
+  }
+}
 
-export default Home;
+export default HomePage;
