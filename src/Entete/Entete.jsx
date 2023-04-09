@@ -20,8 +20,9 @@ export default function Entete(props) {
   }
 
   function validerCourriel(sCourriel) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setCourriel(sCourriel);
-    if (sCourriel.length > 3) {
+    if (regex.test(sCourriel)) {
       setCourrielValide(true);
     } else {
       setCourrielValide(false);
@@ -83,7 +84,7 @@ export default function Entete(props) {
         </div>
         <div>
           <h2>Ajouter une note</h2>
-          <input value={rating} onChange={(e) => { setRating(parseInt(e.target.value)); }} type="number" placeholder="Note" min="0" max="5" />
+          <input value={rating} onChange={(e) => { setRating(parseInt(e.target.value)); }} type="number" min="1" max="5" />
           <button disabled={rating === 0} onClick={(e) => { ajouterNote(); }}>Ajouter</button>
         </div>
       </nav>
