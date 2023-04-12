@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       fontFamily: {
         helvetica: ['Helvetica Neue', ...defaultTheme.fontFamily.sans],
+        Qwigley: ['Qwigley', 'cursive'],
       },
       colors: {
         beer: {
