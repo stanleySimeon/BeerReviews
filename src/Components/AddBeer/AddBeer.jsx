@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './addbeer.css';
 
 export default class AddBeer extends Component {
   constructor(props) {
@@ -50,9 +51,9 @@ export default class AddBeer extends Component {
   render() {
     const { image } = this.state;
     return (
-      <div className="w-full flex flex-col items-center justify-center px-3 md:px-16 lg:px-24 pt-4 md:pt-24 space-y-8">
-        <h1 className="text-2xl md:text-4xl font-light text-center">Ajouter une bière</h1>
-        <form className="flex flex-col space-y-2 w-full md:w-2/3 lg:w-1/2">
+      <div className="container w-full flex flex-col items-center justify-center px-3 md:px-16 lg:px-24 pt-4 md:pt-24 space-y-8">
+        <h1 className="title text-2xl md:text-4xl font-light text-center">Ajouter une bière</h1>
+        <form className="form flex flex-col space-y-2 w-full md:w-2/3 lg:w-1/2">
           <div className="flex flex-col space-y-2">
             <label htmlFor="nom">Nom</label>
             <input type="text" id="nom" className="border-gray-400 border rounded-md p-2" />

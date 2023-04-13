@@ -13,8 +13,7 @@ export default function Details() {
   const { id } = useParams();
   const courriel = localStorage.getItem('courriel');
   const entetes = new Headers();
-  // eslint-disable-next-line prefer-template
-  entetes.append('Authorization', 'Basic ' + btoa('biero:biero'));
+  entetes.append('Authorization', `Basic ${btoa('biero:biero')}`);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,17 +27,6 @@ export default function Details() {
     };
     fetchData();
   }, [id]);
-
-  const showComments = () => {
-    const comments = beer.commentaires;
-    const topComments = comments.slice(0, 20);
-    return topComments.map((comment) => (
-      <div key={comment.id_commmentaire} className="flex flex-col justify-center bg-[#b5b4b4] shadow-md p-2 rounded-lg mb-2">
-        <span className="font-medium text-[#1e1e1e]">{comment.courriel}</span>
-        <p><i className="text-[#252525]">{comment.commentaire}</i></p>
-      </div>
-    ));
-  };
 
   useEffect(() => {
     if (courriel === 'beer@admin.com') {
@@ -101,6 +89,18 @@ export default function Details() {
     }
   }, [courriel]);
 
+  const showComments = () => {
+    const comments = beer.commentaires;
+    if (!comments) return null; // add a check for undefined values
+    const topComments = comments.slice(0, 20);
+    return topComments.map((comment) => (
+      <div key={comment.id_commmentaire} className="flex flex-col justify-center bg-[#d9d9d9] shadow-md p-2 rounded-lg mb-2">
+        <span className="font-medium text-[#ff7100]">{comment.courriel}</span>
+        <p><i className="text-[#252525]">{comment.commentaire}</i></p>
+      </div>
+    ));
+  };
+
   const checkIfAdmin = () => {
     if (isAdmin) {
       return (
@@ -116,7 +116,7 @@ export default function Details() {
   const handleValidation = () => {
     if ((validCourriel && isAdmin) || validCourriel) {
       return (
-        <form className="w-full md:w-1/2 lg:w-4/12 flex flex-col space-y-4 mb-4">
+        <form className="w-full flex flex-col space-y-4 mb-4">
           <div className="flex flex-col justify-center space-y-2">
             <label htmlFor="rating" className="text-md font-light">
               <span className="font-normal">Donnez une note (max=5)</span>
@@ -139,7 +139,7 @@ export default function Details() {
       );
     }
     return (
-      <div className="w-full flex flex-col justify-center bg-[#ff7100] p-2 rounded-lg">
+      <div className="w-full h-16 flex flex-col justify-center bg-[#ff7100] p-2 rounded-lg shadow-lg">
         <p className="text-md font-light text-[#ffffff]">
           Vous devez vous connecter pour pouvoir noter et commenter!
         </p>
@@ -148,20 +148,29 @@ export default function Details() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
-  } if (!beer) {
-    return <div>No beers found</div>;
-  }
-  return (
     <div className="Details w-full h-full sm:w-sm md:w-md lg:w-lg px-3 md:px-16 lg:px-24 pt-6 md:pt-12 flex flex-col space-y-8 justify-start pb-4">
+      <h1 className="text-2xl md:text-4xl font-medium text-[#ff7100]">
+        Loading...
+      </h1>
+    </div>;
+  } if (!beer) {
+    <div className="Details w-full h-full sm:w-sm md:w-md lg:w-lg px-3 md:px-16 lg:px-24 pt-6 md:pt-12 flex flex-col space-y-8 justify-start pb-4">
+      <h1 className="text-2xl md:text-4xl font-medium text-[#ff7100]">
+        No beers found
+      </h1>
+    </div>;
+  }
+
+  return (
+    <div className="Details w-full h-full sm:w-sm md:w-md lg:w-lg px-3 md:px-16 lg:px-24 pt-6 md:pt-12 flex flex-col space-y-8 justify-start :justify-center pb-4">
       <h1 className="text-2xl md:text-4xl font-medium text-[#ff7100]">
         Details de :
         {' '}
         <i>{beer.nom}</i>
       </h1>
       {checkIfAdmin()}
-      <div className="flex flex-col justify-center space-y-4">
-        <div className="flex flex-col justify-center bg-[#d6d6d6] shadow-lg p-2 rounded-lg">
+      <div className="w-full flex flex-col justify-center space-y-4 md:space-y-12">
+        <div className="flex flex-col justify-center space-y-3 lg:w-3/5 bg-[#d6d6d6] shadow-lg p-2 rounded-lg">
           <p className="text-md font-light">
             <span className="font-bold">Nom:</span>
             {' '}
@@ -178,10 +187,12 @@ export default function Details() {
             <i className="text-[#585858]">{beer.note}</i>
           </p>
         </div>
-        {handleValidation()}
-        <div className="text-md font-light pt-4 flex-col space-y-3">
-          <h2 className="text-[#ff7100] font-medium text-2xl md:text-xl">Commentaires</h2>
-          {showComments()}
+        <div className="w-full lg:w-3/5 flex flex-col md:flex-row justify-center md:justify-between space-y-4 md:space-y-0 md:space-x-16">
+          {handleValidation()}
+          <div className="w-full md:h-96 overflow-y-scroll text-md font-light pt-4 md:pt-0 flex-col space-y-3">
+            <h2 className="text-[#ff7100] font-medium text-2xl md:text-xl">Commentaires</h2>
+            {showComments()}
+          </div>
         </div>
       </div>
     </div>

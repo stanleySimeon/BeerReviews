@@ -21,10 +21,7 @@ class BeerList extends Component {
     fetch(this.api)
       .then((res) => res.json())
       .then((data) => {
-        this.setState({
-          beers: data,
-          loading: false,
-        });
+        this.setState({ beers: data, loading: false });
       });
   }
 
@@ -57,7 +54,7 @@ class BeerList extends Component {
   render() {
     const { loading } = this.state;
     return (
-      <div className="bg-[#eeeeee] BeerList w-full h-full sm:w-sm md:w-md lg:w-lg px-3 md:px-16 lg:px-24 pt-6 md:pt-12 flex flex-col space-y-8 justify-start pb-8">
+      <div className="bg-[#f8f8f8] BeerList w-full h-full sm:w-sm md:w-md lg:w-lg px-3 md:px-16 lg:px-24 pt-6 md:pt-12 flex flex-col space-y-8 justify-start pb-8">
         <h1 className="text-2xl md:text-4xl font-medium text-[#ff7100]">Liste bière</h1>
         {loading ? (
           <p>Loading...</p>
